@@ -1,0 +1,428 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Tiny Home America</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        html {
+            overflow-x: hidden;
+            overflow-y: hidden;
+        }
+
+        :root {
+            --red: rgba(255,0,0,255);
+            --darkblue: rgba(15,42,67,255);
+            --lightblue: rgba(28,145,215);
+            --panelcolor: rgba(245,247,250,255);
+            --lightgray: rgba(187,187,189,255);
+        }
+
+        body {
+            
+        }
+
+        #container {
+            text-align: center;    
+            width: 100%;
+            height: auto;
+            margin: 0;
+            border: 0;
+            padding: 0;
+        }
+
+        #loadingScreen {
+            position: absolute;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            background: #232727;
+            z-index: 100;
+        }
+            #loadingScreen label {
+                position: relative;
+                color: white;
+                width: 100%;
+                font-size: xx-large;
+            }
+
+            #loadingScreen img {
+                padding-top: 10%;
+                border-radius: 50%;
+
+            }
+
+        .column {
+        }
+
+        .row {
+            --bs-gutter-x: 0;
+        }
+
+        .options {
+        }
+
+        .feature {
+            font-weight: bold;
+        }
+
+        #ServexCanvas {
+            width: 100vw;
+            height: 100vh;
+            outline: none;
+            aspect-ratio: initial;
+        }
+
+        .canvas.price {
+        }
+
+        .featuresWrapper {
+            width: 40px;
+            height: 40px;
+            border-style: hidden;
+            margin-right: 5px;
+        }
+
+        .featuresB {
+            color: white;
+            background: var(--darkblue);
+            border-radius: 40px;
+            width: 40px;
+            height: 40px;
+            border-style: hidden;
+        }
+
+        .featuresB i {
+            margin-top: 12px;
+        }
+
+        /* Tooltip text */
+        .featuresWrapper .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: #ffffffc4;
+            color: #000;
+            text-align: center;
+            padding: 5px 0;
+            border-radius: 6px;
+            position: absolute;
+            z-index: 1;
+        }
+
+        /* Show the tooltip text when you mouse over the tooltip container */
+        .featuresWrapper:hover .tooltiptext {
+            visibility: visible;
+            position: absolute;
+            top: -40px;
+        }
+
+        .featuresWrapper .tooltiptext::after {
+            content: " ";
+            position: absolute;
+            top: 100%; /* At the bottom of the tooltip */
+            left: 17%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #ffffffc4 transparent transparent transparent;
+        }
+
+        .hide {
+            display: none;
+            text-align: center;
+            padding-top: 18%;
+            position: absolute;
+            width: 220px;
+            height: 45px;
+            left: 0px;
+            top: -45px;
+            background-color: #ffffffc4;
+            color: white;
+            font-weight: bold;
+            border-radius: 25px;
+            z-index: -1;
+        }
+
+        .hoverB.active {
+            border-color: rgb(168, 168, 219);
+            color: white;
+            background-color: var(--darkblue);
+        }
+
+
+        .title {
+            background-color: var(--darkblue);
+            color: white;
+            text-align: center;
+            padding: 5px;
+            margin-bottom: 2px;
+        }
+            .title button {
+                background: transparent;
+                color: white;
+                border: 0;
+                float: right;
+            }
+                .title button:hover {
+                    color: #a2a2a2;
+                }
+
+        #featuresCol {
+            float: left;
+            position: relative;
+            top: -55px;
+            padding-left: 1%;
+        }
+
+        #optionsCol {
+            position: fixed;
+            background: #ffffffc4;
+            width: 250px;
+            z-index: 1;
+            margin: 1%;
+            max-height: 50%;
+            overflow-y: hidden;
+        }
+
+        button.option {
+            float: left;
+            width: 100%;
+            cursor: pointer;
+            padding-top: 0px;
+            padding-bottom: 0px;
+        }
+
+        .figure {
+            margin: 4px;
+            text-align: left;
+            width: 100%;
+        }
+
+            .figure img {
+                width: 30px;
+                height: 30px;
+                border-radius: 40px;
+                background: #9f9f9f;
+            }
+
+        .caption {
+            font-size: 16px;
+            text-align: center;
+            padding-left: 15px;
+            cursor: pointer;
+        }
+
+        .toolButton {
+            height: 40px;
+            width: 40px;
+            color: white;
+            background: var(--darkblue);
+            border-radius: 40px;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+            .toolButton:active {
+                color: white;
+                background: var(--lightblue);
+            }
+
+            /* Tooltip text */
+            .toolButton .tooltiptext {
+                visibility: hidden;
+                width: 120px;
+                background-color: #ffffffc4;
+                color: #000;
+                text-align: center;
+                padding: 5px 0;
+                border-radius: 6px;
+                position: absolute;
+                z-index: 1;
+            }
+
+            .toolButton i {
+                margin-top: 12px;
+            }
+        .door img {
+            width: 60%;
+            margin-top: 8px;
+        }
+
+        /* Show the tooltip text when you mouse over the tooltip container */
+        .door:hover .tooltiptext {
+            visibility: visible;
+            position: absolute;
+            top: -40px;
+            right: 70%;
+        }
+        .download:hover .tooltiptext {
+            visibility: visible;
+            position: absolute;
+            top: -40px;
+            right: 40%;
+        }
+
+        .fullscreen:hover .tooltiptext {
+            visibility: visible;
+            position: absolute;
+            top: -40px;
+            right: 10%;
+        }
+
+        .toolButton .tooltiptext::after {
+            content: " ";
+            position: absolute;
+            top: 100%; /* At the bottom of the tooltip */
+            left: 80%;
+            margin-right: 5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #ffffffc4 transparent transparent transparent;
+        }
+
+        #toolBar {
+            float: right;
+            position: relative;
+            top: -55px;
+            padding-right: 1%;
+        }
+
+            #toolBar svg {
+                height: 20px;
+                width: 20px;
+                color: white;
+                margin-top: 10px;
+            }
+
+        .canvas.button {
+            position: absolute;
+            z-index: 1;
+            width: 45px;
+            height: 45px;
+            font-size: 25px;
+            border-radius: 8px;
+            border-color: var(--darkblue);
+            color: var(--darkblue);
+            background-color: white;
+        }
+
+            .canvas.button.one {
+                right: 1%;
+                top: 1%;
+                border-color: var(--darkblue);
+                color: white;
+                background-color: var(--darkblue);
+            }
+
+            .canvas.button.two {
+                right: 1%;
+                top: 12%;
+            }
+
+            .canvas.button.tree {
+                right: 1%;
+                bottom: 2%;
+            }
+
+        /* Bootstrap style override*/
+        .btn-group, .btn-group-vertical {
+            position: relative;
+            display: inline-flex;
+            vertical-align: middle;
+            flex-direction: column;
+            width: 100%;
+            margin-bottom: 5px;
+            overflow-y: auto;
+            height: 85%;
+        }
+
+        .button.option {
+            color: inherit;
+            background-color: inherit;
+            border: 0;
+        }
+
+            .button.option:hover {
+                color: #fff;
+                background-color: #514e5c52;
+                border-color: #565e64;
+            }
+
+            .button.option:focus {
+                background: #0f2a43b5;
+                color: #fff;
+                border: 0;
+                margin: 0;
+            }
+
+            /*Scrollbar style*/
+        /* width */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+            /* Handle on hover */
+            ::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+
+    </style>
+</head>
+<body>
+    <div id="container" class="">
+        <div id="loadingScreen">
+            <img src="/assets/icons/loading_bw.gif" alt="Alternate Text" />
+            <label id="loadingLabel">Loading, please wait...</label>
+        </div>
+
+        <div id="wrapper">
+            <div class="column options" id="optionsCol" style="display:none">               
+            </div>
+            <canvas id="ServexCanvas"></canvas>
+            <div class="row features" id="featuresCol">
+
+            </div>
+            <div class="row" id="toolBar">
+                <div class="toolButton door" onclick="inOutToggle()">
+                    <div class="tooltiptext">In / Out</div>
+                    <img src="assets/icons/door.png" aria-hidden="true"/>
+                </div>
+                <div class="toolButton download" onclick="downloadImage()">
+                    <div class="tooltiptext">Download</div>
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                </div>
+                <div class="toolButton fullscreen" onclick="fullscreenToggle()">
+                    <div class="tooltiptext">Full Screen</div>
+                    <i class="fa fa-arrows-alt" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" crossorigin="anonymous"></script>    
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+    <script src="/static/babylon/dist/preview release/viewer/babylon.viewer.js"></script>
+    <script src="/static/babylon/dist/preview release/gui/babylon.gui.min.js"></script>
+    <script src="/static/babylon/dist/preview release/loaders/babylonjs.loaders.min.js"></script>
+    <script src="/static/babylon/dist/preview release/materialsLibrary/babylonjs.materials.min.js"></script>
+    <script src="/static/watermark/watermark.js"></script>
+
+    <script src="/scripts/data.js" crossorigin="anonymous"></script>
+    <script src="/scripts/ui.js" crossorigin="anonymous"></script>
+    <script src="/scripts/core.js" crossorigin="anonymous"></script>
+    <script src="/scripts/scene.js" crossorigin="anonymous"></script>
+</body>
+</html>

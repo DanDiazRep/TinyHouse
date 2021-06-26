@@ -1,0 +1,31 @@
+div.featureoptions {
+    padding-top: 50vh;
+}
+
+#canvasRowContainer {
+    height: 48vh;
+    width: 92%;
+}
+
+.row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+     margin-left: 0px;
+}
+
+#canvasContainer {
+    position: fixed;
+    top: 9px;
+    left: 9px;
+    z-index: 0;
+    float: left;
+    padding: 0; 
+   
+}
+
+.slot.ar-button:not(.enabled) {
+    display: block;
+}
