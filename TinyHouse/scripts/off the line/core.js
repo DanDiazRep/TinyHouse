@@ -23,53 +23,48 @@ function changeGeometry(selectedLayers, visibility) {
     });
 }
 
-
-BABYLON.ArcRotateCamera.prototype.spinTo = function (whichprop, targetval, speed) {
+BABYLON.ArcRotateCamera.prototype.spinTo = function (whichprop, targetval, speed) {    
     var ease = new BABYLON.CubicEase();
     ease.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
-    BABYLON.Animation.CreateAndStartAnimation('at4', this, whichprop, speed, 120, this[whichprop], targetval, 0, ease);
+    BABYLON.Animation.CreateAndStartAnimation('at4', this, whichprop, speed, 120, this[whichprop], targetval, 0, ease);    
+}
+
+BABYLON.UniversalCamera.prototype.spinTo = function (whichprop, targetval, speed) {
+    isAnimationRunning = true;
+    var ease = new BABYLON.CubicEase();
+    ease.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
+    BABYLON.Animation.CreateAndStartAnimation('at4', this, whichprop, speed, 120, this[whichprop], targetval, 0, ease);        
 }
 
 
 function changeMaterial(selectedLayers, materialChannel, Url) {
     if (scene.meshes) {
         scene.meshes.map(function (layer) {
-            if (selectedLayers.lenght > 0) {
-                selectedLayers.map(function (selectedLayer) {
-                    if (layer._material)
-                        if (layer._children > 0) {
-                            layer._children.map(function (child) {
-                                if (child._material.id.includes(selectedLayer)) {
+            if (selectedLayers.length > 0) {
+                selectedLayers.map(function (selectedLayer) {                    
+                    if (layer.material) {
+                        if (layer._material.id.includes(selectedLayer)) {
 
-                                if (child._material[materialChannel]) {
-                                    child._material[materialChannel].updateURL(Url);
-                                }
-                                else {
-                                    child._material[materialChannel] = new BABYLON.Texture(Url, scene);
-                                    child._material[materialChannel].vScale = -1;
-                                }
-
+                            if (layer._material[materialChannel]) {
+                                layer._material[materialChannel].updateURL(Url);
                             }
-                        });
+                            else {
+                                layer._material[materialChannel] = new BABYLON.Texture(Url, scene);
+                                layer._material[materialChannel].vScale = -1;
+                            }
+                        }
                     }
+                    
                 });
             }
         });
     }
 }
 
-
-
-// run the render loop
-engine.runRenderLoop(function () {
-    window.addEventListener("resize", function () { engine.resize(); });
-    scene.render();
-});
-
 //Add shadows to the mesh
 function addShadows(meshNode) {
     meshNode.model3D._children.map(function (mesh) {
-        shadowGenerator.addShadowCaster(mesh._children[0]);
+        shadowGenerator.addShadowCaster(mesh._children[0]); 
         groundShadowGenerator.addShadowCaster(mesh._children[0]);
         mesh._children[0].receiveShadows = true;
     });
@@ -125,6 +120,7 @@ else {
     watermarkImg.src = '/assets/icons/company-logo.png';
 }
 function downloadImage() {
+    extraAssets.setEnabled(false); //To be excluded in other projects
     //A portview resize is required to set a fixed image render. Despite the current viewport size.
     vPortHeight = engine._gl.drawingBufferHeight;
     vPortWidth = engine._gl.drawingBufferWidth;
@@ -157,7 +153,7 @@ function downloadImage() {
     }
 
     engine.setSize(vPortWidth, vPortHeight);
-
+    extraAssets.setEnabled(true); //To be excluded in other proyects
 }
 
 
@@ -193,3 +189,80 @@ function fullscreenToggle() {
         BABYLON.Tools.ExitFullscreen();        
     }
 };
+var isCameraOut = true;
+var isRunning = false;
+
+function inOutToggle(toggleButton = false) {   
+    
+    if (isRunning)
+        return; 
+
+    hideOptions(); //Close leftside panel
+
+    if (isCameraOut) {  // The can will get inside and switch to Universal cam
+        isRunning = true;
+        arcCamera.spinTo("radius", 25, 60);
+        setTimeout(() => {            
+            scene.activeCamera = freeCamera;
+            freeCamera.position = arcCamera.position;
+            freeCamera.target = arcCamera.target;
+        }, toggleButton ? 2000: 0);
+            
+        
+        
+        arcCamera.detachControl(); //Removes user control from the ArcCam
+
+        setTimeout(() => {             
+            
+            isRunning = false;
+        }, 1900);
+
+       //Set all arrows on
+        scene.meshes.map((mesh) => {
+            if (mesh.id.includes("arrow")) {
+                mesh.setEnabled(true);
+            }
+        });  
+        
+    }
+
+    else if (!isCameraOut) {  // The can will get outside and switch to arc cam
+        
+        freeCamera.spinTo("target", new BABYLON.Vector3(-95.7, 103.59, -788.4), 60);
+        freeCamera.spinTo("position", new BABYLON.Vector3(143.55, 344.6, 1182.57), 60); 
+        arcCamera.spinTo("radius", 2000, 1000);
+        
+        setTimeout(() => { 
+            scene.activeCamera = arcCamera;            
+            arcCamera.target = new BABYLON.Vector3(0, 200, 0);
+            arcCamera.alpha = 1.45;
+            arcCamera.beta = 1.45;
+            arcCamera.radius = 1200;
+            arcCamera.attachControl(canvas, true);
+
+            setTimeout(() => {
+                isRunning = false;                
+            }, 1000);
+        }, 1900); 
+
+        //Set arrows off
+        scene.meshes.map((mesh) => {
+            if (mesh.id.includes("arrow")) {
+                mesh.setEnabled(false);
+            }
+        });       
+    }
+
+    isCameraOut = !isCameraOut;
+}
+
+function getData(getURL) {
+    $.ajax({
+        type: "GET",
+        headers: { "Content-Type": "application/json" },
+        url: getURL,
+        success: function (data) {
+            return data
+        }
+    })
+}

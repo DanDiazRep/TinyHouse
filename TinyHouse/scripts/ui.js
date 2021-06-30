@@ -1,36 +1,52 @@
+async function getapi(url) {
 
-TFeatures.FeaturesList.map(function (features, nFeatures) {
-    if (features.code != "Interior" && features.code != "Exterior" &&
-        features.code != "Fridge" && features.code != "Stove" &&
-        features.code != "Wood Stove" && features.code != "Staircase"
-    ) {
-        var $featureWrapper = $(`<div class="featuresWrapper"></div>`);
-        $("#featuresCol").append($featureWrapper);
-        var $tooltip = $(`<div class="tooltiptext">${features.code}</div>`);
-        $featureWrapper.append($tooltip);
+    // Storing response
+    const response = await fetch(url, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+    // Storing data in form of JSON
+    return response.json();
+}
+var TFeatures;
+getapi("http://servexusinc.com/features/")
+    .then(TFeatures => {
+        TFeatures.map(function (features, nFeatures) {
+            if (features.code != "Interior" && features.code != "Exterior" &&
+                features.code != "Refrigerator" && features.code != "Stove" &&
+                features.code != "Wood Stove" && features.code != "Staircase" &&
+                features.code != "Walls"
+            ) {
+                var $featureWrapper = $(`<div class="featuresWrapper"></div>`);
+                $("#featuresCol").append($featureWrapper);
+                var $tooltip = $(`<div class="tooltiptext">${features.code}</div>`);
+                $featureWrapper.append($tooltip);
 
-        var $feature = $("<div>", {
-            "class": "featuresB",
-            "id": features.code,
-            "onClick": `selectedFeature("${features.code}")`,
-            "style": `cursor:pointer`,
-        });
-        $featureWrapper.append($feature);
-        var $featIcon = $("<i>", {
-            "class": features.icon
-        });
-        $feature.append($featIcon);
+                var $feature = $("<div>", {
+                    "class": "featuresB",
+                    "id": features.code,
+                    "onClick": `selectedFeature("${features.code}")`,
+                    "style": `cursor:pointer`,
+                });
+                $featureWrapper.append($feature);
+                var $featIcon = $("<i>", {
+                    "class": features.icon
+                });
+                $feature.append($featIcon);
 
-        var $featHBar = $("<div>", {
-            "class": "hide"
+                var $featHBar = $("<div>", {
+                    "class": "hide"
+                });
+                //$canHBar.append($featHBar);
+                var $featHBarText = $("<p>", {
+                    "text": features.code
+                });
+                //$featHBar.append($featHBarText);
+            }
         });
-        //$canHBar.append($featHBar);
-        var $featHBarText = $("<p>", {
-            "text": features.code
-        });
-        //$featHBar.append($featHBarText);
-    }
-});
+    });
+
 var previousFeatureCode = "";
 function selectedFeature(featureCode) {
     if (featureCode != "Walls") {
@@ -59,33 +75,35 @@ function selectedFeature(featureCode) {
     else {
 
         //Animation related code
-        TFeatures.FeaturesList.map(function (features) {
-            if (features.code == featureCode) {
+        getapi(`http://servexusinc.com/features/${featureCode}`)
+            .then(features => {
+                features = features[0];
+
+                console.log(features);
                 if (features.animations) {
-                    if (features.animations.cameraTransition) {
+                    if (features.animations[0].cameraTransition) {
                         //differ between inside and outside
                         var cameraPositionAux = isCameraOut
-                        if (features.code != "Walls" && isCameraOut) {
-                            inOutToggle();                             
+                        if (!features.code.includes("Exterior") && isCameraOut) {
+                            inOutToggle();
                         }
 
-                        if (features.code == "Walls" && !isCameraOut) {
-                            inOutToggle();                            
+                        if (features.code.includes("Exterior") && !isCameraOut) {
+                            inOutToggle();
                             return;
                         }
                         // Delays the animation to let the camera do the switch and transition to the inside
                         // The delay has a dependency on the camera position (inside/outside)
                         // The In/Out animations lasts 1s                        
-                        setTimeout(() => {                             
-                            features.animations.cameraTransition.map(function (transition) {
+                        setTimeout(() => {
+                            features.animations[0].cameraTransition.map(function (transition) {
                                 var objectiveVector = new BABYLON.Vector3(transition.x, transition.y, transition.z);
                                 freeCamera.spinTo(transition.property, objectiveVector, transition.speed);
                             });
-                        }, cameraPositionAux ? 2000 : 100);
+                        }, cameraPositionAux ? 100 : 100);
                     }
                 }
-            }
-        });
+            });
 
 
         $("#optionsCol").show();
@@ -102,56 +120,54 @@ function selectedFeature(featureCode) {
         $("#optionsCol").append($optcontainer);
 
         // creating the options
-        TFeatures.FeaturesList.map(function (feature) {
-            if (feature.code === featureCode) {
-
-                if (feature.features.length != 0) {
-                    feature.features.map(function (subFeature) {
+        getapi(`http://servexusinc.com/features/${featureCode}`)
+            .then(data => {
+                data = data[0];
+                if (data.features.length != 0) {
+                    data.features.map(function (subFeature) {
                         var $optframe = $("<div>", {
                             "class": "featureRow"
                         });
                         $optcontainer.append($optframe);
                         var $foption = $("<div>", {
                             "class": "feature",
-                            "text": subFeature
+                            "text": subFeature.feature
                         });
-                        $optframe.append($foption);
-                        TFeatures.FeaturesList.map(function (feature) {
-                            if (feature.code == subFeature) {
-                                feature.options.map(function (option) {
-                                    var $optcage = $(`<button class="btn btn-secondary button option" onclick="getOption('${option.code}')">`, {
-                                        //"class":"button option",
-                                        //"id":option.code ,
-                                        //"onClick": `getOption("${option.code}")`,
+                        $optframe.append($foption);                             
+                                    
+                            getapi(`http://servexusinc.com/features/${subFeature.feature}`)
+                                .then(data => {                                    
+                                    data = data[0];                                    
+                                    data.options.map(function (option) {    
+                                        var $optcage = $(`<button class="btn btn-secondary button option" onclick="getOption('${option.code}')">`, {
+                                        });
+                                        $optframe.append($optcage);
+                                        var $figure = $(`<div class="figure">`);
+                                        $optcage.append($figure);
+                                        var $imgopt = $("<img>", {
+                                            "class": "icon option",
+                                            "src": option.thumbnail,
+                                            "alt": "optionfigure",
+                                        });
+                                        $figure.append($imgopt);
+                                        var $imglabel = $("<label>", {
+                                            "class": "caption",
+                                            "text": option.code,
+                                        });
+                                        $figure.append($imglabel);
                                     });
-                                    $optframe.append($optcage);
-                                    var $figure = $(`<div class="figure">`);
-                                    $optcage.append($figure);
-                                    var $imgopt = $("<img>", {
-                                        "class": "icon option",
-                                        "src": option.thumbnail,
-                                        "alt": "optionfigure",
-                                    });
-                                    $figure.append($imgopt);
-                                    var $imglabel = $("<label>", {
-                                        "class": "caption",
-                                        "text": option.code,
-                                    });
-                                    $figure.append($imglabel);
                                 });
-                            }
-                        });
+
                     });
                 } else {
-                    feature.options.map(function (opt) {
+                    data.options.map(function (opt) {
                         var $featureRow = $("<div>", {
                             "class": "featureRow"
                         });
                         $optcontainer.append($featureRow);
                         var $optframe = $(`<button class="btn btn-secondary button option" onclick="getOption('${opt.code}')">`, {
                             "class": "button option",
-                            "id": opt.code,
-                            "onClick": `getOption("${opt.code}")`,
+                            "id": opt.code,                            
                         });
 
                         $featureRow.append($optframe);
@@ -170,8 +186,8 @@ function selectedFeature(featureCode) {
                         $figure.append($imglabel);
                     });
                 }
-            }
-        });
+
+            });
 
         uiResize();
         previousFeatureCode = featureCode;
@@ -196,14 +212,15 @@ function getOption(userOption) {
     // here should be the code for when you press a option button 
     // so what should happen comes here, and the clicked button id
     // is the var optcode 
-    OptionsList.map(option => {
-        if (option.code == userOption) {
-            option.edit.map(edit => {
+    console.log(userOption);
+    getapi(`http://servexusinc.com/options/${userOption}`)
+        .then(option => {
+            option = option[0];
+            option.modify.map(edit => {
                 //Check for material edition
+                console.log(edit);
                 if (edit.material) {
-                    edit.material.map(opt => {
-                        changeMaterial(edit.layers, opt.channel, opt.url);
-                    });
+                    changeMaterial(edit.layers, edit.material.channel, edit.material.path);                    
                 }
                 //Check for color edition
                 if (edit.color) {
@@ -214,10 +231,7 @@ function getOption(userOption) {
                     changeGeometry(edit.layers, edit.visibility);
                 }
             });
-
-        }
-
-    });
+        });
 }
 
 var scene;

@@ -5,7 +5,7 @@ function changeColor(selectedLayers, colorCode) {
     scene.meshes.map(function (layer) {
         selectedLayers.map(function (selectedLayer) {
             if (layer._material)
-                if (layer._material.id.includes(selectedLayer)) {
+                if (layer._material.id.includes(selectedLayer.layer)) {
                     layer._material._albedoColor = new BABYLON.Color3.FromHexString(colorCode);
             }
         });        
@@ -17,9 +17,14 @@ function changeColor(selectedLayers, colorCode) {
 function changeGeometry(selectedLayers, visibility) {
     scene.meshes.map(function (layer) {
         if (layer._material)
-            if (selectedLayers.includes(layer._material.name)) {
-                layer.isVisible = visibility;
-        }        
+            selectedLayers.map((selectedLayer) => {
+                
+                if (selectedLayer.layer == layer._material.name) {
+                    layer.isVisible = visibility;
+                }
+            });
+            
+          
     });
 }
 
@@ -38,12 +43,13 @@ BABYLON.UniversalCamera.prototype.spinTo = function (whichprop, targetval, speed
 
 
 function changeMaterial(selectedLayers, materialChannel, Url) {
+    console.log(selectedLayers, materialChannel, Url);
     if (scene.meshes) {
         scene.meshes.map(function (layer) {
             if (selectedLayers.length > 0) {
                 selectedLayers.map(function (selectedLayer) {                    
                     if (layer.material) {
-                        if (layer._material.id.includes(selectedLayer)) {
+                        if (layer._material.id.includes(selectedLayer.layer)) {
 
                             if (layer._material[materialChannel]) {
                                 layer._material[materialChannel].updateURL(Url);
@@ -192,22 +198,29 @@ function fullscreenToggle() {
 var isCameraOut = true;
 var isRunning = false;
 
-function inOutToggle() {   
+function inOutToggle(toggleButton = false) {   
     
     if (isRunning)
         return; 
 
-    hideOptions(); //Close leftside panel
-
+    if (toggleButton) {
+        hideOptions(); //Close leftside panel
+    }
     if (isCameraOut) {  // The can will get inside and switch to Universal cam
         isRunning = true;
         arcCamera.spinTo("radius", 25, 60);
-        freeCamera.position = arcCamera.position;
-        freeCamera.target = arcCamera.target;
+        setTimeout(() => {            
+            scene.activeCamera = freeCamera;
+            freeCamera.position = arcCamera.position;
+            freeCamera.target = arcCamera.target;
+        }, toggleButton ? 2000: 0);
+            
+        
+        
         arcCamera.detachControl(); //Removes user control from the ArcCam
 
         setTimeout(() => {             
-            scene.activeCamera = freeCamera;
+            
             isRunning = false;
         }, 1900);
 

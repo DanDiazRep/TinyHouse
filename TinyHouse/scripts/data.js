@@ -1,4 +1,4 @@
-var sceneInfo =
+var sceneInfo2 =
 {
     "alphaCamera": 1.45,
     "betaCamera": 1.45,
@@ -8,7 +8,7 @@ var sceneInfo =
     "zCameraTarget": 0,
     "lowerRadiusLimit": 25,
     "upperRadiusLimit": 1200,
-    "panningSensibility": 50,
+    "panningSensibility": 0,
     "wheelDeltaPercentage": 0.07,
     "hdr": "assets/environment/babylonDefault.dds",
     "lights":
@@ -30,7 +30,7 @@ var sceneInfo =
             {
                 "name": "Shell",
                 "url": "/assets/models/draco/",
-                "file": "shell.glb",
+                "file": "Shell.glb",
                 "xPosition": 0,
                 "yPosition": 0,
                 "zPosition": 0,
@@ -83,6 +83,19 @@ var sceneInfo =
                 "name": "Escaleras2",
                 "url": "/assets/models/draco/",
                 "file": "Escaleras2.glb",
+                "xPosition": 0,
+                "yPosition": 0,
+                "zPosition": 0,
+                "xRotation": 0,
+                "yRotation": 0,
+                "zRotation": 0,
+                "wRotation": 0,
+                "defaultLayers": [""],
+            },
+            {
+                "name": "Escaleras3",
+                "url": "/assets/models/draco/",
+                "file": "Escaleras3.glb",
                 "xPosition": 0,
                 "yPosition": 0,
                 "zPosition": 0,
@@ -158,7 +171,7 @@ var sceneInfo =
                 "defaultLayers": null,
             },
             {
-                "name": "FridgeA",
+                "name": "RefrigeratorA",
                 "url": "/assets/models/draco/",
                 "file": "Nevera1.glb",
                 "xPosition": 0,
@@ -171,7 +184,7 @@ var sceneInfo =
                 "defaultLayers": null,
             },
             {
-                "name": "FridgeB",
+                "name": "RefrigeratorB",
                 "url": "/assets/models/draco/",
                 "file": "Nevera2.glb",
                 "xPosition": 0,
@@ -261,14 +274,40 @@ var sceneInfo =
                 "wRotation": 0,
                 "defaultLayers": null,
             },
+            {
+                "name": "PuertaCorrediza1",
+                "url": "/assets/models/draco/",
+                "file": "PuertaCorrediza1.glb",
+                "xPosition": 0,
+                "yPosition": 0,
+                "zPosition": 0,
+                "xRotation": 0,
+                "yRotation": 0,
+                "zRotation": 0,
+                "wRotation": 0,
+                "defaultLayers": null,
+            },
+            {
+                "name": "PuertaCorrediza2",
+                "url": "/assets/models/draco/",
+                "file": "PuertaCorrediza2.glb",
+                "xPosition": 0,
+                "yPosition": 0,
+                "zPosition": 0,
+                "xRotation": 0,
+                "yRotation": 0,
+                "zRotation": 0,
+                "wRotation": 0,
+                "defaultLayers": null,
+            },
 
         ]
 }
 
-var TFeatures = {
+var TFeatures2 = {
     "FeaturesList": [
         {
-            "code": "Walls",
+            "code": "Exterior Paint Colors",
             "animations":
             {
                 "cameraTransition": [
@@ -296,62 +335,77 @@ var TFeatures = {
             "options": [
                 {
                     "code": "Bamboo",
+                    "name": "Bamboo",
                     "thumbnail": "assets/icons/Bamboo.png",
                 },
                 {
                     "code": "Banyan Brown",
+                    "name": "Banyan Brown",
                     "thumbnail": "assets/icons/BanyanBrown.png",
                 },
                 {
                     "code": "Blue Shadow",
+                    "name": "Blue Shadow",
                     "thumbnail": "assets/icons/BlueShadow.png",
                 },
                 {
                     "code": "Blue Spruce",
+                    "name": "Blue Spruce",
                     "thumbnail": "assets/icons/BlueSpruce.png",
                 },
                 {
                     "code": "Cedar Bark",
+                    "name": "Cedar Bark",
                     "thumbnail": "assets/icons/CedarBark.png",
                 },
                 {
                     "code": "Charwood",
+                    "name": "Charwood",
                     "thumbnail": "assets/icons/Charwood.png",
                 },
                 {
                     "code": "Chestnut",
+                    "name": "Chestnut",
                     "thumbnail": "assets/icons/Chestnut.png",
                 },
                 {
                     "code": "Classic Barn Red",
+                    "name": "Classic Barn Red",
                     "thumbnail": "assets/icons/ClassicBarnRed.png",
                 },
                 {
                     "code": "Douglas Flr",
+                    "name": "Douglas Flr",
                     "thumbnail": "assets/icons/DouglasFlr.png",
                 },
                 {
                     "code": "English Walnut",
+                    "name": "English Walnut",
                     "thumbnail": "assets/icons/EnglishWalnut.png",
                 },
                 {
                     "code": "Faded Denim",
+                    "name": "Faded Denim",
                     "thumbnail": "assets/icons/FadedDenim.png",
                 },
                 {
                     "code": "Gray Pine",
+                    "name": "Gray Pine",
                     "thumbnail": "assets/icons/GrayPine.png",
                 },
                 {
                     "code": "Hawthorne",
+                    "name": "Hawthorne",
                     "thumbnail": "assets/icons/Hawthorne.png",
                 },
                 {
                     "code": "Hill Country",
+                    "name": "Hill Country",
                     "thumbnail": "assets/icons/HillCountry.png",
                 },
                 {
                     "code": "Leeward",
+                    "name": "Leeward",
                     "thumbnail": "assets/icons/Leeward.png",
                 },
                 {
@@ -360,36 +414,43 @@ var TFeatures = {
                 },
                 {
                     "code": "Mountain Ash",
+                    "name": "Mountain Ash",
                     "thumbnail": "assets/icons/MountainAsh.png",
                 },
                 {
                     "code": "New Barn Red",
+                    "name": "New Barn Red",
                     "thumbnail": "assets/icons/NewBarnRed.png",
                 },
                 {
                     "code": "Olive",
+                    "name": "Olive",
                     "thumbnail": "assets/icons/Olive.png",
                 },
                 {
                     "code": "Pacific Pine",
+                    "name": "Pacific Pine",
                     "thumbnail": "assets/icons/PacificPine.png",
                 },
                 {
                     "code": "Riverwood",
+                    "name": "Riverwood",
                     "thumbnail": "assets/icons/Riverwood.png",
                 },
                 {
                     "code": "Tavern Oak",
+                    "name": "Tavern Oak",
                     "thumbnail": "assets/icons/TavernOak.png",
                 },
                 {
                     "code": "White Birch",
+                    "name": "White Birch",
                     "thumbnail": "assets/icons/WhiteBirch.png",
                 },
                 
             ],
             "icon": "fas fa-home"
-        }, //Walls
+        }, //Exterior Paint Colors
         {
             "code": "Interior",
             "animations": "Clipping Plane",
@@ -411,7 +472,7 @@ var TFeatures = {
                 "Camera Transition"
             ],
             "features": [
-                "Walls"
+                "Exterior Paint Colors"
             ],
             "options": [
             ],
@@ -445,10 +506,12 @@ var TFeatures = {
             "options": [
                 {
                     "code": "Include Bedroom",
+                    "name": "Include Bedroom",
                     "thumbnail": "assets/icons/Bedroom.png",
                 },
                 {
                     "code": "Remove Bedroom",
+                    "name": "Remove Bedroom",
                     "thumbnail": "assets/icons/Remove.png",
                 },
             ],
@@ -478,8 +541,9 @@ var TFeatures = {
                 "clippingPlane": null,
             },
             "features": [
+                "Walls",
+                "Staircase",
                 "Wood Stove",
-                "Staircase"
             ],
             "options": [
             ],
@@ -509,7 +573,7 @@ var TFeatures = {
                 "clippingPlane": null,
             },
             "features": [
-                "Fridge",
+                "Refrigerator",
                 "Stove"
             ],
             "options": [
@@ -544,39 +608,44 @@ var TFeatures = {
             "options": [
                 {
                     "code": "Flushing Toilet",
+                    "name": "Flushing Toilet",
                     "thumbnail": "assets/icons/FlushingToilet.png",
                 },
                 {
                     "code": "Composting Toilet",
+                    "name": "Composting Toilet",
                     "thumbnail": "assets/icons/CompostingToilet.png",
                 },
             ],
             "icon": "fas fa-bath"
         }, //Bathroom
         {
-            "code": "Fridge",
+            "code": "Refrigerator",
             "animations": null,
             "features": [
             ],
             "options": [
                 {
-                    "code": "Fridge A",
+                    "code": "Bottom Freezer",
+                    "name": "Bottom Freezer",
                     "thumbnail": "assets/icons/FridgeA.png",
 
                 },
                 {
-                    "code": "Fridge B",
+                    "code": "Top Freezer",
+                    "name": "Top Freezer",
                     "thumbnail": "assets/icons/FridgeB.png",
 
                 },
                 {
-                    "code": "Fridge C",
+                    "code": "Refrigerator C",
+                    "name": "Refrigerator C",
                     "thumbnail": "assets/icons/404.png",
 
                 },
             ],
             "icon": "far fa-snowflake"
-        }, //Fridge
+        }, //Refrigerator
         {
             "code": "Stove",
             "animations": null,
@@ -585,11 +654,13 @@ var TFeatures = {
             "options": [
                 {
                     "code": "Include Stove",
+                    "name": "Include Stove",
                     "thumbnail": "assets/icons/Stove.png",
 
                 },
                 {
                     "code": "Remove Stove",
+                    "name": "Remove Stove",
                     "thumbnail": "assets/icons/Remove.png",
 
                 },
@@ -604,10 +675,12 @@ var TFeatures = {
             "options": [
                 {
                     "code": "Include Wood Stove",
+                    "name": "Include Wood Stove",
                     "thumbnail": "assets/icons/WoodStove.png",
                 },
                 {
                     "code": "Remove Wood Stove",
+                    "name": "Remove Wood Stove",
                     "thumbnail": "assets/icons/Remove.png",
                 },
             ],
@@ -621,11 +694,19 @@ var TFeatures = {
             "options": [
                 {
                     "code": "Staircase 1",
+                    "name": "Staircase 1",
                     "thumbnail": "assets/icons/404.png",
 
                 },
                 {
                     "code": "Staircase 2",
+                    "name": "Staircase 2",
+                    "thumbnail": "assets/icons/404.png",
+
+                },
+                {
+                    "code": "Staircase 3",
+                    "name": "Staircase 3",
                     "thumbnail": "assets/icons/404.png",
 
                 },
@@ -659,27 +740,53 @@ var TFeatures = {
             ],
             "options": [
                 {
-                    "code": "Natural Oak",
-                    "thumbnail": "assets/icons/NaturalOak.png",
+                    "code": "Natural Oak Floor",
+                    "name": "Natural Oak",
+                    "thumbnail": "assets/icons/NaturalOak.jpg",
 
                 },
                 {
-                    "code": "Dark Mahogany",
+                    "code": "Dark Mahogany Floor",
+                    "name": "Dark Mahogany ",
                     "thumbnail": "assets/icons/DarkMahogany.jpg",
 
                 },
             ],
             "icon": "fa fa-th-large"
         }, //Floor
+        {
+            "code": "Walls",
+            "animations": {
+                "cameraTransition": null,
+                "clippingPlane": null,
+            },
+            "features": [
+            ],
+            "options": [
+                {
+                    "code": "Natural Oak Walls",
+                    "name": "Natural Oak",
+                    "thumbnail": "assets/icons/NaturalOak.jpg",
+
+                },
+                {
+                    "code": "Dark Mahogany Walls",
+                    "name": "Dark Mahogany",
+                    "thumbnail": "assets/icons/DarkMahogany.jpg",
+
+                },
+            ],
+            "icon": "fa fa-th-large"
+        }, //Inner Walls
 
     ]
 }
 
-var OptionsList = [
+var OptionsList2 = [
 
     {
         "code": "Bamboo",
-        "feature": "Walls",
+        "feature": "Exterior Paint Colors",
         "edit":
             [
                 {
@@ -699,7 +806,7 @@ var OptionsList = [
     },
     {
         "code": "Banyan Brown",
-        "feature": "Walls",
+        "feature": "Exterior Paint Colors",
         "edit":
             [
                 {
@@ -719,7 +826,7 @@ var OptionsList = [
     },
     {
         "code": "Blue Shadow",
-        "feature": "Walls",
+        "feature": "Exterior Paint Colors",
         "edit":
             [
                 {
@@ -739,7 +846,7 @@ var OptionsList = [
     },
     {
         "code": "Blue Spruce",
-        "feature": "Walls",
+        "feature": "Exterior Paint Colors",
         "edit":
             [
                 {
@@ -759,7 +866,7 @@ var OptionsList = [
     },
     {
         "code": "Cedar Bark",
-        "feature": "Walls",
+        "feature": "Exterior Paint Colors",
         "edit":
             [
                 {
@@ -779,7 +886,7 @@ var OptionsList = [
     },
     {
         "code": "Charwood",
-        "feature": "Walls",
+        "feature": "Exterior Paint Colors",
         "edit":
             [
                 {
@@ -799,7 +906,7 @@ var OptionsList = [
     },
     {
         "code": "Chestnut",
-        "feature": "Walls",
+        "feature": "Exterior Paint Colors",
         "edit":
             [
                 {
@@ -819,7 +926,7 @@ var OptionsList = [
     },
     {
         "code": "Classic Barn Red",
-        "feature": "Walls",
+        "feature": "Exterior Paint Colors",
         "edit":
             [
                 {
@@ -839,7 +946,7 @@ var OptionsList = [
     },
     {
         "code": "Douglas Flr",
-        "feature": "Walls",
+        "feature": "Exterior Paint Colors",
         "edit":
             [
                 {
@@ -859,7 +966,7 @@ var OptionsList = [
     },
     {
         "code": "English Walnut",
-        "feature": "Walls",
+        "feature": "Exterior Paint Colors",
         "edit":
             [
                 {
@@ -879,7 +986,7 @@ var OptionsList = [
     },
     {
         "code": "Faded Denim",
-        "feature": "Walls",
+        "feature": "Exterior Paint Colors",
         "edit":
             [
                 {
@@ -899,7 +1006,7 @@ var OptionsList = [
     },
     {
         "code": "Gray Pine",
-        "feature": "Walls",
+        "feature": "Exterior Paint Colors",
         "edit":
             [
                 {
@@ -919,7 +1026,7 @@ var OptionsList = [
     },
     {
         "code": "Hawthorne",
-        "feature": "Walls",
+        "feature": "Exterior Paint Colors",
         "edit":
             [
                 {
@@ -938,7 +1045,7 @@ var OptionsList = [
     },
     {
         "code": "Hill Country",
-        "feature": "Walls",
+        "feature": "Exterior Paint Colors",
         "edit":
             [
                 {
@@ -958,7 +1065,7 @@ var OptionsList = [
     },
     {
         "code": "Leeward",
-        "feature": "Walls",
+        "feature": "Exterior Paint Colors",
         "edit":
             [
                 {
@@ -978,7 +1085,7 @@ var OptionsList = [
     },
     {
         "code": "MossOlive",
-        "feature": "Walls",
+        "feature": "Exterior Paint Colors",
         "edit":
             [
                 {
@@ -997,7 +1104,7 @@ var OptionsList = [
     },
     {
         "code": "Mountain Ash",
-        "feature": "Walls",
+        "feature": "Exterior Paint Colors",
         "edit":
             [
                 {
@@ -1016,7 +1123,7 @@ var OptionsList = [
     },
     {
         "code": "New Barn Red",
-        "feature": "Walls",
+        "feature": "Exterior Paint Colors",
         "edit":
             [
                 {
@@ -1035,7 +1142,7 @@ var OptionsList = [
     },
     {
         "code": "Olive",
-        "feature": "Walls",
+        "feature": "Exterior Paint Colors",
         "edit":
             [
                 {
@@ -1055,7 +1162,7 @@ var OptionsList = [
 
     {
         "code": "Pacific Pine",
-        "feature": "Walls",
+        "feature": "Exterior Paint Colors",
         "edit":
             [
                 {
@@ -1074,7 +1181,7 @@ var OptionsList = [
     },
     {
         "code": "Riverwood",
-        "feature": "Walls",
+        "feature": "Exterior Paint Colors",
         "edit":
             [
                 {
@@ -1093,7 +1200,7 @@ var OptionsList = [
     },
     {
         "code": "Tavern Oak",
-        "feature": "Walls",
+        "feature": "Exterior Paint Colors",
         "edit":
             [
                 {
@@ -1112,7 +1219,7 @@ var OptionsList = [
     },
     {
         "code": "White Birch",
-        "feature": "Walls",
+        "feature": "Exterior Paint Colors",
         "edit":
             [
                 {
@@ -1210,8 +1317,8 @@ var OptionsList = [
             ]
     },
     {
-        "code": "Fridge A",
-        "feature": "Fridge",
+        "code": "Bottom Freezer",
+        "feature": "Refrigerator",
         "edit":
             [
                 {
@@ -1229,8 +1336,8 @@ var OptionsList = [
             ]
     },
     {
-        "code": "Fridge B",
-        "feature": "Fridge",
+        "code": "Top Freezer",
+        "feature": "Refrigerator",
         "edit":
             [
                 {
@@ -1248,8 +1355,8 @@ var OptionsList = [
             ]
     },
     {
-        "code": "Fridge C",
-        "feature": "Fridge",
+        "code": "Refrigerator C",
+        "feature": "Refrigerator",
         "edit":
             [
                 {
@@ -1332,7 +1439,7 @@ var OptionsList = [
                     "visibility": true,
                 },
                 {
-                    "layers": ["Escaleras2"],
+                    "layers": ["Escaleras2", "Escaleras3"],
                     "material": null,
                     "color": null,
                     "visibility": false,
@@ -1345,21 +1452,40 @@ var OptionsList = [
         "edit":
             [
                 {
-                    "layers": ["Escaleras1"],
-                    "material": null,
-                    "color": null,
-                    "visibility": false,
-                },
-                {
                     "layers": ["Escaleras2"],
                     "material": null,
                     "color": null,
                     "visibility": true,
                 },
+                {
+                    "layers": ["Escaleras1", "Escaleras3"],
+                    "material": null,
+                    "color": null,
+                    "visibility": false,
+                },
             ]
     },
     {
-        "code": "Natural Oak",
+        "code": "Staircase 3",
+        "feature": "Staircase",
+        "edit":
+            [
+                {
+                    "layers": ["Escaleras3"],
+                    "material": null,
+                    "color": null,
+                    "visibility": true,
+                },
+                {
+                    "layers": ["Escaleras2", "Escaleras1"],
+                    "material": null,
+                    "color": null,
+                    "visibility": false,
+                },
+            ]
+    },
+    {
+        "code": "Natural Oak Floor",
         "feature": "Flooring",
         "edit":
             [
@@ -1369,7 +1495,31 @@ var OptionsList = [
                         [
                             {
                                 "channel": "albedoTexture",
-                                "url": "/assets/textures/Floor_naturalOak.ktx2"
+                                "url": "/assets/textures/Floor_Wood1.ktx2"
+                            },
+                        ],
+                    "color": null,
+                    "visibility": null,
+                },
+                {
+                    "layers": ["PisoArriba1"],
+                    "material":
+                        [
+                            {
+                                "channel": "albedoTexture",
+                                "url": "/assets/textures/FloorWest_Wood1.ktx2"
+                            },
+                        ],
+                    "color": null,
+                    "visibility": null,
+                },
+                {
+                    "layers": ["PisoArriba2"],
+                    "material":
+                        [
+                            {
+                                "channel": "albedoTexture",
+                                "url": "/assets/textures/FloorEast_Wood1.ktx2"
                             },
                         ],
                     "color": null,
@@ -1378,7 +1528,7 @@ var OptionsList = [
             ]
     },
     {
-        "code": "Dark Mahogany",
+        "code": "Dark Mahogany Floor",
         "feature": "Flooring",
         "edit":
             [
@@ -1388,7 +1538,120 @@ var OptionsList = [
                         [
                             {
                                 "channel": "albedoTexture",
-                                "url": "/assets/textures/Floor_darkMahogany.ktx2"
+                                "url": "/assets/textures/Floor_Wood2.ktx2"
+                            },
+                        ],
+                    "color": null,
+                    "visibility": null,
+                },
+                {
+                    "layers": ["PisoArriba1"],
+                    "material":
+                        [
+                            {
+                                "channel": "albedoTexture",
+                                "url": "/assets/textures/FloorEast_Wood2.ktx2"
+                            },
+                        ],
+                    "color": null,
+                    "visibility": null,
+                },
+                {
+                    "layers": ["PisoArriba2"],
+                    "material":
+                        [
+                            {
+                                "channel": "albedoTexture",
+                                "url": "/assets/textures/FloorWest_Wood2.ktx2"
+                            },
+                        ],
+                    "color": null,
+                    "visibility": null,
+                },
+            ]
+
+    },
+
+    {
+        "code": "Natural Oak Walls",
+        "feature": "Living Room",
+        "edit":
+            [
+                {
+                    "layers": ["ParedesAdentro"],
+                    "material":
+                        [
+                            {
+                                "channel": "albedoTexture",
+                                "url": "/assets/textures/InnerWall_Wood1.ktx2"
+                            },
+                        ],
+                    "color": null,
+                    "visibility": null,
+                },
+                {
+                    "layers": ["Pared1"],
+                    "material":
+                        [
+                            {
+                                "channel": "albedoTexture",
+                                "url": "/assets/textures/InnerWallEast_Wood1.ktx2"
+                            },
+                        ],
+                    "color": null,
+                    "visibility": null,
+                },
+                {
+                    "layers": ["Pared2"],
+                    "material":
+                        [
+                            {
+                                "channel": "albedoTexture",
+                                "url": "/assets/textures/InnerWallWest_Wood1.ktx2"
+                            },
+                        ],
+                    "color": null,
+                    "visibility": null,
+                },
+            ]
+
+    },
+    {
+        "code": "Dark Mahogany Walls",
+        "feature": "Living Room",
+        "edit":
+            [
+                {
+                    "layers": ["ParedesAdentro"],
+                    "material":
+                        [
+                            {
+                                "channel": "albedoTexture",
+                                "url": "/assets/textures/InnerWall_Wood2.ktx2"
+                            },
+                        ],
+                    "color": null,
+                    "visibility": null,
+                },
+                {
+                    "layers": ["Pared1"],
+                    "material":
+                        [
+                            {
+                                "channel": "albedoTexture",
+                                "url": "/assets/textures/InnerWallEast_Wood2.ktx2"
+                            },
+                        ],
+                    "color": null,
+                    "visibility": null,
+                },
+                {
+                    "layers": ["Pared2"],
+                    "material":
+                        [
+                            {
+                                "channel": "albedoTexture",
+                                "url": "/assets/textures/InnerWallWest_Wood2.ktx2"
                             },
                         ],
                     "color": null,

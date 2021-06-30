@@ -1,7 +1,22 @@
 ﻿var freeCamera;
 var arcCamera;
 var extraAssets;
+var sceneInfo;
+var scene;
 engine.loadingUIBackgroundColor = "white";
+getapi("http://servexusinc.com/sceneinfo/")
+    .then(data => {
+        sceneInfo = data[0];
+    })
+    .then(() => {
+        scene = createScene();
+        // run the render loop
+        engine.runRenderLoop(function () {
+            window.addEventListener("resize", function () { engine.resize(); });
+            scene.render();
+        });
+    });
+
 //Scene creation
 var createScene = function () {
     //FIXED scene setup
@@ -21,7 +36,6 @@ var createScene = function () {
     arcCamera.attachControl(canvas, true);
     arcCamera.angularSensibilityX = 2000;
     arcCamera.angularSensibilityY = 2000;
-    arcCamera.panningSensitivity = 0; //No panning
     arcCamera.lowerRadiusLimit = sceneInfo.lowerRadiusLimit;
     arcCamera.upperRadiusLimit = sceneInfo.upperRadiusLimit;
     arcCamera.panningSensibility = sceneInfo.panningSensibility;
@@ -73,10 +87,9 @@ var createScene = function () {
     ground.receiveShadows = true;
     
 
-
     //ANIMATIONS
     var arrow;
-    BABYLON.SceneLoader.ImportMesh("arrow_model", "/assets/models/draco/", "Arrow.glb", scene, function (meshes) {
+    BABYLON.SceneLoader.ImportMesh("arrow_model", "http://tinyhome.servexusinc.com/assets/models/draco/", "Arrow.glb", scene, function (meshes) {
         extraAssets = meshes[0];
         arrow = meshes[1];
         arrow.isPickable = true;
@@ -119,13 +132,10 @@ var createScene = function () {
 
     });
 
-        
-    
-
     //Project Meshes
     // Mesh Importer
-    var firstModel = sceneInfo.Symbols[0];
-    BABYLON.SceneLoader.ImportMesh("", firstModel.url, firstModel.file, scene, function (meshes) {
+    var firstModel = sceneInfo.symbols[0];
+    BABYLON.SceneLoader.ImportMesh("", firstModel.url + "/", firstModel.file, scene, function (meshes) {
         meshes.map(function (mesh) {
             if (mesh.name == ("__root__")) {
                 //Position and Rotation manager
@@ -145,14 +155,20 @@ var createScene = function () {
                 mesh.receiveShadows = true;
 
                 //Pointer manager
+
                 // mesh.actionManager = new BABYLON.ActionManager(scene);
                 // mesh.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPointerOverTrigger, function (env) {
                 //}, false));
 
                 //Default visualization
-                if (firstModel.defaultLayers) {
+
+                firstModel.defaultLayers.map((defaultLayer) => {
+                    if (defaultLayer.layer.includes("null")) {
+                        return;
+                    }
                     mesh.isVisible = firstModel.defaultLayers.includes(mesh.material.id);
-                }
+                });
+                
             }
 
             /*Material correction*/
@@ -163,11 +179,11 @@ var createScene = function () {
 
         });
 
-        sceneInfo.Symbols.map((model, nModel) => {
+        sceneInfo.symbols.map((model, nModel) => {
             if (nModel > 0) {
                 //Async Donwload the other meshes
                 Promise.all([
-                    BABYLON.SceneLoader.ImportMeshAsync(null, model.url, model.file, scene).then(function (loadedModel) {
+                    BABYLON.SceneLoader.ImportMeshAsync(null, model.url + "/", model.file, scene).then(function (loadedModel) {
                         loadedModel.meshes.map(function (mesh) {
                             if (mesh.name == ("__root__")) {
                                 //Position and Rotation manager
@@ -193,9 +209,12 @@ var createScene = function () {
                                 //}, false));
 
                                 //Default visualization
-                                if (model.defaultLayers) {
-                                    mesh.isVisible = model.defaultLayers.includes(mesh.material.id);
-                                }
+                                model.defaultLayers.map((defaultLayer) => {
+                                    if (defaultLayer.layer.includes("null")) {
+                                        return;
+                                    }
+                                    mesh.isVisible = defaultLayer.layer.includes(mesh.material.id);
+                                });
 
                                 //Material correction
                                 if (mesh._material) {
@@ -213,7 +232,7 @@ var createScene = function () {
                 });
             }
         });
-
+        
     },
         function (evt) {
             //On progress function
@@ -226,19 +245,16 @@ var createScene = function () {
 
         }, function (error) {            
             alert(`Oops! Something went wrong with ${firstModel.name}`);
+            
         });
 
 
     return scene;
 }
 // call the createScene function
-var scene = createScene();
+//var scene //= createScene();
 
-// run the render loop
-engine.runRenderLoop(function () {
-    window.addEventListener("resize", function () { engine.resize(); });
-    scene.render();
-});
+
 
 
 function addArrowAnimations(arrow, height) {
